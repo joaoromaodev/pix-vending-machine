@@ -50,25 +50,56 @@
             box-shadow: 2px 2px 0px rgba(26, 26, 26, 1);
         }
 
-        /* Transição para feedback tátil */
-        .btn-feedback:active {
-            transform: scale(0.95);
-        }
-
-        /* Hover effect para cards */
-        .product-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px rgba(26, 26, 26, 1);
-        }
-
-        .product-card {
-            transition: all 0.1s ease-out;
-        }
-
         /* Estoque zerado */
         .out-of-stock {
             opacity: 0.5;
             filter: grayscale(50%);
+        }
+
+        /* Seletor de Quantidade - Neobrutalista Compacto */
+        .qty-selector {
+            background-color: #FFFFFF;
+            border: 2px solid #1A1A1A;
+            border-radius: 0;
+            padding: 0.25rem !important;
+            gap: 0 !important;
+            box-shadow: 2px 2px 0px rgba(26, 26, 26, 0.3);
+            width: 100%;
+        }
+
+        .qty-trash, .qty-minus, .qty-plus {
+            flex: 1;
+            height: 1.75rem !important;
+            background-color: #FFFFFF !important;
+            border-right: 1px solid #1A1A1A !important;
+            color: #1A1A1A !important;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border-radius: 0;
+            padding: 0 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-plus {
+            border-right: none !important;
+        }
+
+        .qty-value {
+            flex: 1;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #1A1A1A;
+            text-align: center;
+            border-right: 1px solid #1A1A1A;
+            height: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
@@ -84,110 +115,298 @@
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="max-w-md mx-auto px-4 py-6 pb-32">
-        <!-- Grid de Produtos (2 colunas) -->
-        <div class="grid grid-cols-2 gap-4">
-            <!-- CARD PRODUTO 1 -->
-            <div class="product-card bg-white border-3 border-brutalista brutal-shadow p-4">
-                <!-- Imagem Placeholder -->
-                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-3 flex items-center justify-center">
-                    <span class="text-gray-400 text-2xl">📦</span>
-                </div>
-
-                <!-- Badge de Localização -->
-                <div class="bg-brutalista text-white text-xs font-bold px-2 py-1 mb-2 border-2 border-brutalista w-fit">
-                    A1
-                </div>
-
-                <!-- Nome do Produto -->
-                <h3 class="font-display text-lg text-brutalista mb-1">Colar</h3>
-
+    <main class="max-w-full mx-auto px-4 py-6 pb-32">
+        <!-- Grid de Produtos (4 colunas x 5 linhas) -->
+        <div class="grid grid-cols-4 gap-2">
+            <!-- LINHA A (A1 a A4) -->
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <!-- Foto -->
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <!-- Badge -->
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">A1</div>
+                <!-- Nome -->
+                <h3 class="font-display text-sm text-brutalista mb-1">Colar</h3>
                 <!-- Preço -->
-                <p class="text-deep-pink font-bold text-sm mb-3">R$ 15,00</p>
-
-                <!-- Controles de Quantidade -->
-                <div class="flex items-center gap-2 mb-3 border-2 border-brutalista p-1">
-                    <button class="btn-feedback w-6 h-6 bg-white border border-brutalista text-brutalista font-bold hover:bg-gray-100">-</button>
-                    <span class="flex-1 text-center text-sm font-bold">1</span>
-                    <button class="btn-feedback w-6 h-6 bg-white border border-brutalista text-brutalista font-bold hover:bg-gray-100">+</button>
-                </div>
-
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 15,00</p>
                 <!-- Botão Adicionar -->
-                <button class="btn-feedback w-full bg-deep-pink text-white font-bold py-2 border-2 border-brutalista brutal-shadow-sm hover:bg-opacity-90 active:shadow-none">
-                    Adicionar
-                </button>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <!-- Seletor Quantity (oculto) -->
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
             </div>
 
-            <!-- CARD PRODUTO 2 -->
-            <div class="product-card bg-white border-3 border-brutalista brutal-shadow p-4">
-                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-3 flex items-center justify-center">
-                    <span class="text-gray-400 text-2xl">📦</span>
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">A2</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Pulseira</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 12,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
                 </div>
-
-                <div class="bg-brutalista text-white text-xs font-bold px-2 py-1 mb-2 border-2 border-brutalista w-fit">
-                    A2
-                </div>
-
-                <h3 class="font-display text-lg text-brutalista mb-1">Pulseira</h3>
-                <p class="text-deep-pink font-bold text-sm mb-3">R$ 12,00</p>
-
-                <div class="flex items-center gap-2 mb-3 border-2 border-brutalista p-1">
-                    <button class="btn-feedback w-6 h-6 bg-white border border-brutalista text-brutalista font-bold hover:bg-gray-100">-</button>
-                    <span class="flex-1 text-center text-sm font-bold">1</span>
-                    <button class="btn-feedback w-6 h-6 bg-white border border-brutalista text-brutalista font-bold hover:bg-gray-100">+</button>
-                </div>
-
-                <button class="btn-feedback w-full bg-deep-pink text-white font-bold py-2 border-2 border-brutalista brutal-shadow-sm hover:bg-opacity-90 active:shadow-none">
-                    Adicionar
-                </button>
             </div>
 
-            <!-- CARD PRODUTO 3 (SEM ESTOQUE) -->
-            <div class="product-card bg-white border-3 border-brutalista brutal-shadow p-4 out-of-stock">
-                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-3 flex items-center justify-center">
-                    <span class="text-gray-400 text-2xl">📦</span>
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col out-of-stock">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">A3</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Brinco</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 10,00</p>
+                <button class="w-full bg-gray-300 text-gray-600 font-bold py-1 px-2 border border-brutalista text-xs cursor-not-allowed whitespace-nowrap" disabled>Esgotado</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover" disabled>🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold" disabled>-</button>
+                    <span class="qty-value">0</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold" disabled>+</button>
                 </div>
-
-                <div class="bg-brutalista text-white text-xs font-bold px-2 py-1 mb-2 border-2 border-brutalista w-fit">
-                    B1
-                </div>
-
-                <h3 class="font-display text-lg text-brutalista mb-1">Anel</h3>
-                <p class="text-deep-pink font-bold text-sm mb-3">R$ 10,00</p>
-
-                <div class="flex items-center gap-2 mb-3 border-2 border-brutalista p-1">
-                    <button class="btn-feedback w-6 h-6 bg-white border border-brutalista text-brutalista font-bold hover:bg-gray-100 disabled:opacity-50 cursor-not-allowed" disabled>-</button>
-                    <span class="flex-1 text-center text-sm font-bold">0</span>
-                    <button class="btn-feedback w-6 h-6 bg-white border border-brutalista text-brutalista font-bold hover:bg-gray-100 disabled:opacity-50 cursor-not-allowed" disabled>+</button>
-                </div>
-
-                <button class="w-full bg-gray-300 text-gray-600 font-bold py-2 border-2 border-brutalista cursor-not-allowed" disabled>
-                    Esgotado
-                </button>
             </div>
 
-            <!-- CARD PRODUTO 4 -->
-            <div class="product-card bg-white border-3 border-brutalista brutal-shadow p-4">
-                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-3 flex items-center justify-center">
-                    <span class="text-gray-400 text-2xl">📦</span>
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">A4</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Chaveiro</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 14,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
                 </div>
+            </div>
 
-                <div class="bg-brutalista text-white text-xs font-bold px-2 py-1 mb-2 border-2 border-brutalista w-fit">
-                    B2
+            <!-- LINHA B (B1 a B4) -->
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">B1</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Presilha</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 8,50</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
                 </div>
+            </div>
 
-                <h3 class="font-display text-lg text-brutalista mb-1">Brinco</h3>
-                <p class="text-deep-pink font-bold text-sm mb-3">R$ 8,00</p>
-
-                <div class="flex items-center gap-2 mb-3 border-2 border-brutalista p-1">
-                    <button class="btn-feedback w-6 h-6 bg-white border border-brutalista text-brutalista font-bold hover:bg-gray-100">-</button>
-                    <span class="flex-1 text-center text-sm font-bold">1</span>
-                    <button class="btn-feedback w-6 h-6 bg-white border border-brutalista text-brutalista font-bold hover:bg-gray-100">+</button>
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">B2</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Anel</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 11,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
                 </div>
+            </div>
 
-                <button class="btn-feedback w-full bg-deep-pink text-white font-bold py-2 border-2 border-brutalista brutal-shadow-sm hover:bg-opacity-90 active:shadow-none">
-                    Adicionar
-                </button>
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">B3</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Colar</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 16,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col out-of-stock">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">B4</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Brinco</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 9,50</p>
+                <button class="w-full bg-gray-300 text-gray-600 font-bold py-1 px-2 border border-brutalista text-xs cursor-not-allowed whitespace-nowrap" disabled>Esgotado</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover" disabled>🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold" disabled>-</button>
+                    <span class="qty-value">0</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold" disabled>+</button>
+                </div>
+            </div>
+
+            <!-- LINHA C (C1 a C4) -->
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">C1</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Pulseira</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 13,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">C2</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Chaveiro</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 17,50</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">C3</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Presilha</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 6,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">C4</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Anel</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 19,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <!-- LINHA D (D1 a D4) -->
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">D1</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Colar</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 18,50</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col out-of-stock">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">D2</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Brinco</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 7,50</p>
+                <button class="w-full bg-gray-300 text-gray-600 font-bold py-1 px-2 border border-brutalista text-xs cursor-not-allowed whitespace-nowrap" disabled>Esgotado</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover" disabled>🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold" disabled>-</button>
+                    <span class="qty-value">0</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold" disabled>+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">D3</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Pulseira</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 21,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">D4</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Chaveiro</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 23,00</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <!-- LINHA E (E1 a E4) -->
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">E1</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Presilha</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 5,50</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">E2</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Anel</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 20,50</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">E3</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Colar</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 24,50</p>
+                <button class="btn-feedback add-btn w-full bg-deep-pink text-white font-bold py-1 px-2 border border-brutalista text-xs whitespace-nowrap">Adicionar</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover">🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold">-</button>
+                    <span class="qty-value">1</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold">+</button>
+                </div>
+            </div>
+
+            <div class="product-card bg-white border-2 border-brutalista brutal-shadow-sm p-3 h-fit flex flex-col out-of-stock">
+                <div class="bg-gray-200 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center text-lg">📦</div>
+                <div class="bg-brutalista text-white text-xs font-bold px-2 py-0.5 mb-2 border border-brutalista w-fit">E4</div>
+                <h3 class="font-display text-sm text-brutalista mb-1">Brinco</h3>
+                <p class="text-deep-pink font-bold text-xs mb-3">R$ 12,50</p>
+                <button class="w-full bg-gray-300 text-gray-600 font-bold py-1 px-2 border border-brutalista text-xs cursor-not-allowed whitespace-nowrap" disabled>Esgotado</button>
+                <div class="qty-selector hidden flex items-stretch gap-0">
+                    <button class="qty-trash bg-white border-r border-brutalista text-brutalista font-bold text-sm" title="Remover" disabled>🗑️</button>
+                    <button class="qty-minus bg-white border-r border-brutalista text-brutalista font-bold" disabled>-</button>
+                    <span class="qty-value">0</span>
+                    <button class="qty-plus bg-white text-brutalista font-bold" disabled>+</button>
+                </div>
             </div>
         </div>
     </main>
@@ -241,12 +460,12 @@
             </div>
 
             <!-- Botão Ir para Pagamento -->
-            <button class="btn-feedback w-full bg-deep-pink text-white font-bold py-3 px-4 border-2 border-brutalista brutal-shadow-sm hover:bg-opacity-90 active:shadow-none text-lg">
+            <button class="btn-feedback w-full bg-deep-pink text-white font-bold py-3 px-4 border-2 border-brutalista brutal-shadow-sm text-lg">
                 Ir para Pagamento
             </button>
 
             <!-- Botão Continuar Comprando -->
-            <button class="btn-feedback w-full mt-2 bg-white text-brutalista font-bold py-2 px-4 border-2 border-brutalista hover:bg-gray-100">
+            <button class="btn-feedback w-full mt-2 bg-white text-brutalista font-bold py-2 px-4 border-2 border-brutalista">
                 Continuar Comprando
             </button>
         </div>
@@ -259,7 +478,7 @@
                 <p class="text-xs text-gray-600">Subtotal</p>
                 <p class="font-display text-2xl text-cereja">R$ 45,00</p>
             </div>
-            <button class="btn-feedback bg-cereja text-white font-bold px-6 py-3 border-3 border-brutalista brutal-shadow hover:bg-opacity-90 active:shadow-none">
+            <button class="btn-feedback bg-cereja text-white font-bold px-6 py-3 border-3 border-brutalista brutal-shadow">
                 Checkout
             </button>
         </div>
@@ -268,7 +487,7 @@
     <!-- MODAL DE PAGAMENTO -->
     <div id="paymentModal" class="fixed inset-0 z-50 bg-cereja hidden flex items-center justify-center">
         <!-- Botão Fechar (Canto Superior) -->
-        <button id="closePaymentBtn" class="absolute top-6 right-6 w-10 h-10 bg-white border-2 border-brutalista rounded-full flex items-center justify-center font-bold text-brutalista hover:bg-gray-100 active:scale-95 transition-transform">
+        <button id="closePaymentBtn" class="absolute top-6 right-6 w-10 h-10 bg-white border-2 border-brutalista rounded-full flex items-center justify-center font-bold text-brutalista transition-transform">
             ✕
         </button>
 
@@ -302,7 +521,7 @@
                 </div>
 
                 <!-- Botão Copiar Código -->
-                <button class="btn-feedback w-full bg-deep-pink text-white font-bold py-3 border-2 border-brutalista brutal-shadow-sm hover:bg-opacity-90 active:shadow-none mb-3">
+                <button class="btn-feedback w-full bg-deep-pink text-white font-bold py-3 border-2 border-brutalista brutal-shadow-sm mb-3">
                     Copiar Código Pix
                 </button>
 
@@ -319,10 +538,10 @@
         </div>
     </div>
 
-    <!-- Script para controlar Bottom Sheet e Modal de Pagamento -->
+    <!-- Script para controlar Bottom Sheet, Modal de Pagamento e Seletor de Quantidade -->
     <script>
         // ============================================
-        // ELEMENTOS DO DOM
+        // ELEMENTOS DO DOM - CART
         // ============================================
         const cartSheet = document.getElementById('cartSheet');
         const cartBackdrop = document.getElementById('cartBottomSheet');
@@ -332,20 +551,48 @@
         const paymentBtn = cartSheet.querySelector('button:first-of-type');
         const continueShoppingBtn = cartSheet.querySelector('button:last-of-type');
         const closePaymentBtn = document.getElementById('closePaymentBtn');
+        const subtotalDisplay = document.querySelector('footer .text-cereja');
+
+        // ============================================
+        // ESTADO DE CARRINHO
+        // ============================================
+        const cart = {};
+        const allCards = document.querySelectorAll('.product-card');
+
+        // Inicializar carrinho com dados dos produtos
+        allCards.forEach((card, index) => {
+            const productName = card.querySelector('h3').textContent;
+            const priceText = card.querySelector('.text-deep-pink').textContent;
+            const price = parseFloat(priceText.replace('R$ ', '').replace(',', '.'));
+            
+            cart[index] = {
+                name: productName,
+                price: price,
+                quantity: 0,
+                card: card
+            };
+        });
+
+        // ============================================
+        // FUNÇÃO: Atualizar Subtotal
+        // ============================================
+        function updateSubtotal() {
+            let total = 0;
+            Object.values(cart).forEach(item => {
+                total += item.price * item.quantity;
+            });
+            const formattedTotal = total.toFixed(2).replace('.', ',');
+            subtotalDisplay.textContent = `R$ ${formattedTotal}`;
+        }
 
         // ============================================
         // FUNÇÃO: Abrir Sacola
         // ============================================
         function openCart() {
-            // Animar Bottom Sheet para cima
             cartSheet.classList.remove('translate-y-full');
             cartSheet.classList.add('translate-y-0');
-            
-            // Mostrar backdrop
             cartBackdrop.classList.remove('opacity-0', 'pointer-events-none');
             cartBackdrop.classList.add('opacity-100');
-            
-            // Bloquear scroll da página
             document.body.style.overflow = 'hidden';
         }
 
@@ -353,15 +600,10 @@
         // FUNÇÃO: Fechar Sacola
         // ============================================
         function closeCart() {
-            // Animar Bottom Sheet para baixo
             cartSheet.classList.add('translate-y-full');
             cartSheet.classList.remove('translate-y-0');
-            
-            // Esconder backdrop
             cartBackdrop.classList.add('opacity-0', 'pointer-events-none');
             cartBackdrop.classList.remove('opacity-100');
-            
-            // Liberar scroll da página
             document.body.style.overflow = 'auto';
         }
 
@@ -369,10 +611,7 @@
         // FUNÇÃO: Abrir Modal de Pagamento
         // ============================================
         function openPaymentModal() {
-            // Fechar a Sacola
             closeCart();
-            
-            // Mostrar Modal
             paymentModal.classList.remove('hidden');
         }
 
@@ -384,26 +623,101 @@
         }
 
         // ============================================
+        // LÓGICA DE INTERAÇÃO DOS CARDS
+        // ============================================
+        const addBtns = document.querySelectorAll('.add-btn');
+        
+        // Evento: Clique no botão "Adicionar"
+        addBtns.forEach((btn, index) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const card = btn.closest('.product-card');
+                const addBtn = card.querySelector('.add-btn');
+                const qtySelector = card.querySelector('.qty-selector');
+                const qtyValue = card.querySelector('.qty-value');
+                
+                // Inicializar quantidade como 1
+                cart[index].quantity = 1;
+                qtyValue.textContent = '1';
+                
+                // Esconder botão e mostrar seletor
+                addBtn.classList.add('hidden');
+                qtySelector.classList.remove('hidden');
+                
+                // Atualizar subtotal
+                updateSubtotal();
+            });
+        });
+
+        // Lógica para lixeira, - e +
+        allCards.forEach((card, index) => {
+            const trashBtn = card.querySelector('.qty-trash');
+            const minusBtn = card.querySelector('.qty-minus');
+            const plusBtn = card.querySelector('.qty-plus');
+            const qtyValue = card.querySelector('.qty-value');
+            const addBtn = card.querySelector('.add-btn');
+            const qtySelector = card.querySelector('.qty-selector');
+
+            // Evento: Botão Lixeira (zera e volta ao Adicionar)
+            if (trashBtn && !card.classList.contains('out-of-stock')) {
+                trashBtn.addEventListener('click', () => {
+                    // Zerar quantidade
+                    cart[index].quantity = 0;
+                    qtyValue.textContent = '1';
+                    
+                    // Voltar ao botão Adicionar
+                    addBtn.classList.remove('hidden');
+                    qtySelector.classList.add('hidden');
+                    
+                    // Atualizar subtotal
+                    updateSubtotal();
+                });
+            }
+
+            // Evento: Botão Menos (decrementar)
+            if (minusBtn && !card.classList.contains('out-of-stock')) {
+                minusBtn.addEventListener('click', () => {
+                    let qty = cart[index].quantity;
+                    
+                    if (qty > 1) {
+                        // Decrementar quantidade
+                        qty--;
+                        cart[index].quantity = qty;
+                        qtyValue.textContent = qty;
+                    }
+                    
+                    // Atualizar subtotal
+                    updateSubtotal();
+                });
+            }
+
+            // Evento: Botão Mais (incrementar)
+            if (plusBtn && !card.classList.contains('out-of-stock')) {
+                plusBtn.addEventListener('click', () => {
+                    let qty = cart[index].quantity;
+                    
+                    // Incrementar quantidade
+                    qty++;
+                    cart[index].quantity = qty;
+                    qtyValue.textContent = qty;
+                    
+                    // Atualizar subtotal
+                    updateSubtotal();
+                });
+            }
+        });
+
+        // ============================================
         // EVENT LISTENERS - SACOLA
         // ============================================
-        
-        // Botão "Checkout" na barra inferior abre a Sacola
         checkoutBtn.addEventListener('click', openCart);
-        
-        // Botão "Continuar Comprando" fecha a Sacola
         continueShoppingBtn.addEventListener('click', closeCart);
-        
-        // Clicar no backdrop fecha a Sacola
         cartBackdrop.addEventListener('click', closeCart);
 
         // ============================================
         // EVENT LISTENERS - PAGAMENTO
         // ============================================
-        
-        // Botão "Ir para Pagamento" abre o Modal
         paymentBtn.addEventListener('click', openPaymentModal);
-        
-        // Botão "Fechar" (✕) fecha o Modal
         closePaymentBtn.addEventListener('click', closePaymentModal);
     </script>
 </body>
