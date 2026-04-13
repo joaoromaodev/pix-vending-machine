@@ -18,5 +18,5 @@
     { "id": "E1", "name": "Presilha", "price":  5.50, "stock": 8 },
     { "id": "E2", "name": "Anel",     "price": 20.50, "stock": 2 },
     { "id": "E3", "name": "Colar",    "price": 24.50, "stock": 3 },
-    { "id": "E4", "name": "Brinco",   "price": 12.50, "stock": 0 }
+    { "id": "E4", "name": "Teste", "price": 0.01, "stock": 5 }
 ]
