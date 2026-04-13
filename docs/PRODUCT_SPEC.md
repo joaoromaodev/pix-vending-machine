@@ -13,7 +13,7 @@ Uma máquina de vendas automática para artesanatos, operada via Pix, instalada 
 ## URLs de Produção
 - **Backend:** https://hearty-tranquility-production.up.railway.app
 - **Frontend:** https://romao666.github.io/pix-vending-machine
-- **Admin:** frontend/assets/admin.html (aberto localmente por enquanto)
+- **Admin:** frontend/assets/admin.html (aberto localmente)
 
 ## Credenciais e Variáveis de Ambiente (Railway)
 - `MP_ACCESS_TOKEN_PRODUCAO` — token Mercado Pago produção
@@ -51,11 +51,15 @@ Uma máquina de vendas automática para artesanatos, operada via Pix, instalada 
 - **Fase 4:** Polimento + produção — animação de cerejas, deploy Railway, webhook Mercado Pago funcionando em produção
 - **Fase 5:** Admin + Fotos — PostgreSQL persistente, Cloudinary, interface admin com login/edição/upload, fotos nos cards
 - **Fase 6:** Estoque real — subtração após pagamento aprovado ✅
+- **Fase 8:** Hospedagem frontend — GitHub Pages com favicon ✅
 
-### 🔜 Próximo — Fase 7 e 8
-- **Fase 7:** MQTT stub — disparo para ESP32 após pagamento aprovado
-- **Fase 8:** Hospedagem do frontend (em andamento)
+### ⏸️ Pausado — aguardando hardware
+- **Fase 7:** MQTT — disparo para ESP32 após pagamento aprovado
+  - Aguardando chegada do ESP32 e demais componentes
+  - Protocolo de comunicação já documentado em `HARDWARE_INTERFACE.md`
+  - Implementar junto com testes de hardware
 
 ### 📋 Backlog
 - Domínio personalizado configurado no Railway
 - Proteção da rota /admin por URL secreta
+- Hospedar admin.html no GitHub Pages ou Railway
