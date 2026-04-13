@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cherry Bomb — Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cereja: '#C8102E',
+                        escuro: '#8B0000',
+                        brutalista: '#1A1A1A',
+                    },
+                    fontFamily: {
+                        display: ['Shrikhand', 'cursive'],
+                        body: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        .brutal-shadow { box-shadow: 4px 4px 0px #1A1A1A; }
+        .brutal-shadow-sm { box-shadow: 2px 2px 0px #1A1A1A; }
+        .btn-tap:active { transform: scale(0.95); }
+
+        .product-row {
+            border: 2px solid #1A1A1A;
+            box-shadow: 2px 2px 0px #1A1A1A;
+        }
+
+        .input-brutal {
+            border: 2px solid #1A1A1A;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 0.35rem 0.5rem;
+            width: 100%;
+            background: white;
+        }
+
+        .input-brutal:focus {
+            outline: none;
+            border-color: #C8102E;
+        }
+/* Input file customizado */
+        input[type="file"] {
+            display: none;
+        }
+        .file-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid #1A1A1A;
+            padding: 0.4rem 0.6rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            background: white;
+            width: 100%;
+        }
+        .file-label:active { transform: scale(0.98); }
+        /* Toast */
+        #toast {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-body">
+
+    <!-- ═══════════════════════════════════
+         LOGIN SCREEN
+    ════════════════════════════════════ -->
+    <div id="loginScreen" class="fixed inset-0 bg-cereja flex items-center justify-center px-6 z-50">
+        <div class="bg-white border-2 border-brutalista brutal-shadow w-full max-w-sm p-6">
+            <div class="flex items-center gap-3 mb-6">
+                <img src="logo-red.svg" class="h-14 w-14 flex-shrink-0">
+                <div>
+                    <h1 class="font-display text-2xl text-brutalista leading-tight">Cherry Bomb</h1>
+                    <p class="text-xs text-gray-500 font-body">Painel Administrativo</p>
+                </div>
+            </div>
+
+            <label class="block text-xs font-bold text-brutalista mb-1">Senha de Acesso</label>
+            <input id="passwordInput"
+                type="password"
+                placeholder="••••••••"
+                class="input-brutal mb-4"
+                onkeydown="if(event.key==='Enter') fazerLogin()">
+
+            <div id="loginError" class="hidden text-xs text-red-600 font-bold mb-3">❌ Senha incorreta.</div>
+
+            <button onclick="fazerLogin()"
+                class="btn-tap w-full bg-cereja text-white font-body font-bold py-3 border-2 border-brutalista brutal-shadow-sm text-sm">
+                Entrar
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         ADMIN PANEL
+    ════════════════════════════════════ -->
+    <div id="adminPanel" class="hidden">
+
+        <!-- Header -->
+        <header class="bg-cereja px-4 py-3 border-b-4 border-brutalista sticky top-0 z-30">
+            <div class="max-w-4xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <img src="logo.svg" class="h-10 w-10">
+                    <h1 class="font-display text-xl text-white">Admin</h1>
+                </div>
+                <button onclick="sair()"
+                    class="btn-tap bg-escuro text-white font-body font-bold text-xs px-3 py-2 border-2 border-brutalista">
+                    Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- Conteúdo -->
+        <main class="max-w-4xl mx-auto px-4 py-6">
+
+            <!-- Título -->
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="font-display text-2xl text-brutalista">Gestão de Produtos</h2>
+                <button onclick="carregarProdutos()" title="Atualizar"
+                    class="btn-tap bg-white text-brutalista p-2 border-2 border-brutalista brutal-shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="square" stroke-linejoin="miter" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="text-center py-12">
+                <p class="font-body text-gray-500 text-sm">Carregando produtos...</p>
+            </div>
+
+            <!-- Grid de produtos -->
+            <div id="productList" class="hidden space-y-3"></div>
+
+        </main>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         MODAL DE EDIÇÃO
+    ════════════════════════════════════ -->
+    <div id="editModal" class="fixed inset-0 z-50 bg-black bg-opacity-60 hidden items-center justify-center px-4">
+        <div class="bg-white border-2 border-brutalista brutal-shadow w-full max-w-sm p-5">
+
+            <div class="flex items-center justify-between mb-4">
+                <h3 id="modalTitle" class="font-display text-xl text-brutalista">Editar Produto</h3>
+                <button onclick="fecharModal()"
+                    class="btn-tap w-8 h-8 border-2 border-brutalista font-bold text-brutalista flex items-center justify-center text-sm">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Preview da imagem -->
+            <div class="mb-4">
+                <div id="imagePreview"
+                     class="bg-gray-100 border-2 border-brutalista w-full aspect-square mb-2 flex items-center justify-center overflow-hidden">
+                    <span class="text-3xl">📦</span>
+                </div>
+                <label class="block text-xs font-bold text-brutalista mb-1">Foto do Produto</label>
+                <label for="imageInput" class="file-label border-brutalista">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="square" stroke-linejoin="miter" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span id="fileLabel">Escolher foto...</span>
+                </label>
+                <input type="file" id="imageInput" accept="image/*"
+                    onchange="previewImagem(this)">
+            </div>
+
+            <!-- Campos -->
+            <div class="space-y-3 mb-4">
+                <div>
+                    <label class="block text-xs font-bold text-brutalista mb-1">Posição</label>
+                    <input id="editId" class="input-brutal bg-gray-100" disabled>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-brutalista mb-1">Nome do Produto</label>
+                    <input id="editName" class="input-brutal" placeholder="Ex: Colar de Macramê">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs font-bold text-brutalista mb-1">Preço (R$)</label>
+                        <input id="editPrice" type="number" step="0.01" min="0" class="input-brutal" placeholder="0,00">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-brutalista mb-1">Estoque (un.)</label>
+                        <input id="editStock" type="number" min="0" class="input-brutal" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão salvar -->
+            <button id="saveBtn" onclick="salvarProduto()"
+                class="btn-tap w-full bg-cereja text-white font-body font-bold py-3 border-2 border-brutalista brutal-shadow-sm text-sm">
+                Salvar Alterações
+            </button>
+
+            <div id="saveError" class="hidden mt-2 text-xs text-red-600 font-bold text-center"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast"
+         class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-brutalista text-white font-body font-bold text-sm px-5 py-3 border-2 border-brutalista opacity-0 pointer-events-none z-50">
+        ✅ Salvo com sucesso!
+    </div>
+
+    <script>
+    // ─────────────────────────────────────
+    // CONFIG
+    // ─────────────────────────────────────
+    const API_URL = 'https://hearty-tranquility-production.up.railway.app';
+    let senha = '';
+    let produtoAtual = null;
+    let produtos = [];
+
+    // ─────────────────────────────────────
+    // LOGIN
+    // ─────────────────────────────────────
+    function fazerLogin() {
+        const input = document.getElementById('passwordInput').value;
+        senha = input;
+        carregarProdutos();
+    }
+
+    function sair() {
+        senha = '';
+        document.getElementById('adminPanel').classList.add('hidden');
+        document.getElementById('loginScreen').classList.remove('hidden');
+        document.getElementById('passwordInput').value = '';
+    }
+
+    // ─────────────────────────────────────
+    // CARREGAR PRODUTOS
+    // ─────────────────────────────────────
+    async function carregarProdutos() {
+        try {
+            const res = await fetch(`${API_URL}/admin/produtos`, {
+                headers: { 'x-admin-password': senha }
+            });
+
+            if (res.status === 401) {
+                document.getElementById('loginError').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('loginError').classList.add('hidden');
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+
+            produtos = await res.json();
+            renderProdutos();
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    // ─────────────────────────────────────
+    // RENDERIZAR PRODUTOS
+    // ─────────────────────────────────────
+    function renderProdutos() {
+        const list = document.getElementById('productList');
+        const loading = document.getElementById('loading');
+
+        loading.classList.add('hidden');
+        list.classList.remove('hidden');
+
+        list.innerHTML = produtos.map(p => `
+            <div class="product-row bg-white p-3 flex items-center gap-3">
+                <!-- Foto -->
+                <div class="w-14 h-14 border-2 border-brutalista flex-shrink-0 overflow-hidden flex items-center justify-center bg-gray-100 relative">
+                    ${p.image_url
+                        ? `<img src="${p.image_url}" class="w-full h-full object-cover">`
+                        : `<span class="text-2xl">📦</span>`
+                    }
+                    <span class="absolute top-0 left-0 bg-brutalista text-white font-bold text-xs px-1">${p.id}</span>
+                </div>
+
+                <!-- Info -->
+                <div class="flex-1 min-w-0">
+                    <p class="font-display text-sm text-brutalista truncate">${p.name}</p>
+                    <p class="font-body text-xs text-cereja font-bold">R$ ${p.price.toFixed(2).replace('.', ',')}</p>
+                    <p class="font-body text-xs text-gray-500">Estoque: <span class="${p.stock === 0 ? 'text-red-500 font-bold' : 'text-green-600 font-bold'}">${p.stock} un.</span></p>
+                </div>
+
+                <!-- Botão editar -->
+                <button onclick="abrirModal('${p.id}')"
+                    class="btn-tap bg-escuro text-white font-body font-bold text-xs px-3 py-2 border-2 border-brutalista flex-shrink-0">
+                    Editar
+                </button>
+            </div>
+        `).join('');
+    }
+
+    // ─────────────────────────────────────
+    // MODAL
+    // ─────────────────────────────────────
+    function abrirModal(id) {
+        produtoAtual = produtos.find(p => p.id === id);
+        if (!produtoAtual) return;
+
+        document.getElementById('editId').value = produtoAtual.id;
+        document.getElementById('editName').value = produtoAtual.name;
+        document.getElementById('editPrice').value = produtoAtual.price;
+        document.getElementById('editStock').value = produtoAtual.stock;
+        document.getElementById('imageInput').value = '';
+        document.getElementById('saveError').classList.add('hidden');
+
+        // Preview da imagem atual
+        const preview = document.getElementById('imagePreview');
+        if (produtoAtual.image_url) {
+            preview.innerHTML = `<img src="${produtoAtual.image_url}" class="w-full h-full object-cover">`;
+        } else {
+            preview.innerHTML = `<span class="text-3xl">📦</span>`;
+        }
+
+        document.getElementById('editModal').classList.remove('hidden');
+        document.getElementById('editModal').classList.add('flex');
+    }
+
+    function fecharModal() {
+        document.getElementById('editModal').classList.add('hidden');
+        document.getElementById('editModal').classList.remove('flex');
+        produtoAtual = null;
+    }
+
+    function previewImagem(input) {
+        if (input.files && input.files[0]) {
+            document.getElementById('fileLabel').textContent = input.files[0].name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('imagePreview').innerHTML =
+                    `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // ─────────────────────────────────────
+    // SALVAR PRODUTO
+    // ─────────────────────────────────────
+    async function salvarProduto() {
+        const btn = document.getElementById('saveBtn');
+        const errorEl = document.getElementById('saveError');
+        errorEl.classList.add('hidden');
+
+        const id = document.getElementById('editId').value;
+        const name = document.getElementById('editName').value.trim();
+        const price = parseFloat(document.getElementById('editPrice').value);
+        const stock = parseInt(document.getElementById('editStock').value);
+        const imageFile = document.getElementById('imageInput').files[0];
+
+        if (!name || isNaN(price) || isNaN(stock)) {
+            errorEl.textContent = '⚠️ Preencha todos os campos corretamente.';
+            errorEl.classList.remove('hidden');
+            return;
+        }
+
+        btn.textContent = 'Salvando...';
+        btn.disabled = true;
+
+        try {
+            // 1. Upload da imagem (se houver)
+            let image_url = produtoAtual.image_url;
+            if (imageFile) {
+                const formData = new FormData();
+                formData.append('file', imageFile);
+
+                const uploadRes = await fetch(`${API_URL}/admin/upload/${id}`, {
+                    method: 'POST',
+                    headers: { 'x-admin-password': senha },
+                    body: formData
+                });
+
+                if (!uploadRes.ok) throw new Error('Erro no upload da imagem.');
+                const uploadData = await uploadRes.json();
+                image_url = uploadData.image_url;
+            }
+
+            // 2. Atualiza dados do produto
+            const updateRes = await fetch(`${API_URL}/admin/produtos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-password': senha
+                },
+                body: JSON.stringify({ name, price, stock, image_url })
+            });
+
+            if (!updateRes.ok) throw new Error('Erro ao salvar produto.');
+
+            // Atualiza lista local
+            const idx = produtos.findIndex(p => p.id === id);
+            produtos[idx] = { id, name, price, stock, image_url };
+            renderProdutos();
+
+            fecharModal();
+            mostrarToast('✅ Produto salvo com sucesso!');
+
+        } catch (err) {
+            errorEl.textContent = '⚠️ Erro ao salvar. Tente novamente.';
+            errorEl.classList.remove('hidden');
+        } finally {
+            btn.textContent = 'Salvar Alterações';
+            btn.disabled = false;
+        }
+    }
+
+    // ─────────────────────────────────────
+    // TOAST
+    // ─────────────────────────────────────
+    function mostrarToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+    }
+
+    // ─────────────────────────────────────
+    // FECHAR MODAL AO CLICAR FORA
+    // ─────────────────────────────────────
+    document.getElementById('editModal').addEventListener('click', function(e) {
+        if (e.target === this) fecharModal();
+    });
+    </script>
+</body>
+</html>
