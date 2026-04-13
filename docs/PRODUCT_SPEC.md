@@ -12,7 +12,7 @@ Uma máquina de vendas automática para artesanatos, operada via Pix, instalada 
 
 ## URLs de Produção
 - **Backend:** https://hearty-tranquility-production.up.railway.app
-- **Frontend:** a definir (Fase 8)
+- **Frontend:** https://romao666.github.io/pix-vending-machine
 - **Admin:** frontend/assets/admin.html (aberto localmente por enquanto)
 
 ## Credenciais e Variáveis de Ambiente (Railway)
