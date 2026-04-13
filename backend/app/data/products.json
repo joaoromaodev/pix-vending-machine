@@ -1,0 +1,22 @@
+[
+    { "id": "A1", "name": "Colar",    "price": 15.00, "stock": 5 },
+    { "id": "A2", "name": "Pulseira", "price": 12.00, "stock": 3 },
+    { "id": "A3", "name": "Brinco",   "price": 10.00, "stock": 0 },
+    { "id": "A4", "name": "Chaveiro", "price": 14.00, "stock": 4 },
+    { "id": "B1", "name": "Presilha", "price":  8.50, "stock": 6 },
+    { "id": "B2", "name": "Anel",     "price": 11.00, "stock": 2 },
+    { "id": "B3", "name": "Colar",    "price": 16.00, "stock": 4 },
+    { "id": "B4", "name": "Brinco",   "price":  9.50, "stock": 0 },
+    { "id": "C1", "name": "Pulseira", "price": 13.00, "stock": 5 },
+    { "id": "C2", "name": "Chaveiro", "price": 17.50, "stock": 3 },
+    { "id": "C3", "name": "Presilha", "price":  6.00, "stock": 7 },
+    { "id": "C4", "name": "Anel",     "price": 19.00, "stock": 1 },
+    { "id": "D1", "name": "Colar",    "price": 18.50, "stock": 3 },
+    { "id": "D2", "name": "Brinco",   "price":  7.50, "stock": 0 },
+    { "id": "D3", "name": "Pulseira", "price": 21.00, "stock": 2 },
+    { "id": "D4", "name": "Chaveiro", "price": 23.00, "stock": 4 },
+    { "id": "E1", "name": "Presilha", "price":  5.50, "stock": 8 },
+    { "id": "E2", "name": "Anel",     "price": 20.50, "stock": 2 },
+    { "id": "E3", "name": "Colar",    "price": 24.50, "stock": 3 },
+    { "id": "E4", "name": "Brinco",   "price": 12.50, "stock": 0 }
+]
