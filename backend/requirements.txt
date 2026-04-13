@@ -6,3 +6,4 @@ pydantic
 starlette
 cloudinary
 python-multipart
+psycopg2-binary

@@ -10,9 +10,6 @@ router = APIRouter()
 sdk = mercadopago.SDK(settings.mp_token)
 
 
-# ─────────────────────────────────────────
-# MODELOS
-# ─────────────────────────────────────────
 class ItemCarrinho(BaseModel):
     id: str
     name: str
@@ -24,9 +21,6 @@ class PagamentoRequest(BaseModel):
     itens: list[ItemCarrinho]
 
 
-# ─────────────────────────────────────────
-# POST /gerar-pagamento
-# ─────────────────────────────────────────
 @router.post("/gerar-pagamento")
 async def gerar_pagamento(body: PagamentoRequest):
     if not body.itens:
@@ -52,13 +46,14 @@ async def gerar_pagamento(body: PagamentoRequest):
 
     p_id = str(payment["id"])
 
-    # Salva no banco
     conn = get_connection()
-    conn.execute(
-        "INSERT INTO pagamentos (id, status, itens, total) VALUES (?, ?, ?, ?)",
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO pagamentos (id, status, itens, total) VALUES (%s, %s, %s, %s)",
         (p_id, "pending", json.dumps([i.dict() for i in body.itens]), total)
     )
     conn.commit()
+    cursor.close()
     conn.close()
 
     return {
@@ -69,43 +64,36 @@ async def gerar_pagamento(body: PagamentoRequest):
     }
 
 
-# ─────────────────────────────────────────
-# GET /status/{payment_id}
-# ─────────────────────────────────────────
 @router.get("/status/{payment_id}")
 async def verificar_status(payment_id: str):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT status FROM pagamentos WHERE id = ?", (payment_id,))
+    cursor.execute("SELECT status FROM pagamentos WHERE id = %s", (payment_id,))
     row = cursor.fetchone()
+    cursor.close()
     conn.close()
     if not row:
         return {"status": "not_found"}
     return {"status": row["status"]}
 
 
-# ─────────────────────────────────────────
-# Função auxiliar usada pelo webhook
-# ─────────────────────────────────────────
 def aprovar_pagamento(p_id: str):
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Atualiza status do pagamento
-    conn.execute("UPDATE pagamentos SET status = 'approved' WHERE id = ?", (p_id,))
+    cursor.execute("UPDATE pagamentos SET status = 'approved' WHERE id = %s", (p_id,))
 
-    # Busca os itens do pagamento
-    cursor.execute("SELECT itens FROM pagamentos WHERE id = ?", (p_id,))
+    cursor.execute("SELECT itens FROM pagamentos WHERE id = %s", (p_id,))
     row = cursor.fetchone()
 
     if row:
         itens = json.loads(row["itens"])
-        # Subtrai estoque de cada item
         for item in itens:
-            conn.execute(
-                "UPDATE produtos SET stock = MAX(0, stock - ?) WHERE id = ?",
+            cursor.execute(
+                "UPDATE produtos SET stock = GREATEST(0, stock - %s) WHERE id = %s",
                 (item["qty"], item["id"])
             )
 
     conn.commit()
+    cursor.close()
     conn.close()

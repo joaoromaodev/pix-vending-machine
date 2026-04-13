@@ -382,7 +382,12 @@
             card.innerHTML = `
                 <!-- Foto + Badge sobrepostos -->
                 <div class="relative w-full aspect-square mb-2">
-                    <div class="bg-gray-100 border-2 border-brutalista w-full h-full flex items-center justify-center text-xl">📦</div>
+                    <div class="bg-gray-100 border-2 border-brutalista w-full h-full flex items-center justify-center text-xl overflow-hidden">
+                        ${product.image_url
+                            ? `<img src="${product.image_url}" class="w-full h-full object-cover">`
+                            : `📦`
+                        }
+                    </div>
                     <span class="absolute top-0 left-0 bg-brutalista text-white font-body font-bold text-xs px-1.5 py-0.5">${product.id}</span>
                 </div>
 
