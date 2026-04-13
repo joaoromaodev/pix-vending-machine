@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import mercadopago
 from app.core.config import settings
 from app.core.database import init_db
-from app.routers import produtos, pagamento
+from app.routers import produtos, pagamento, admin
 
 app = FastAPI(title="Cherry Bomb Handmade — API")
 
@@ -18,6 +18,7 @@ sdk = mercadopago.SDK(settings.mp_token)
 
 app.include_router(produtos.router)
 app.include_router(pagamento.router)
+app.include_router(admin.router)
 
 
 @app.on_event("startup")

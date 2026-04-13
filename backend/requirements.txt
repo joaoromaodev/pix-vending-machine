@@ -4,3 +4,4 @@ mercadopago
 python-dotenv
 pydantic
 starlette
+cloudinary
